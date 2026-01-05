@@ -24,23 +24,53 @@ export function Navbar() {
       className={cn(
         "absolute top-0 left-0 right-0 z-50 transition-all duration-500",
         isScrolled
-          ? "bg-slate-950/80 backdrop-blur-xl border-b border-cyan-500/10"
+          ? "bg-black/80 backdrop-blur-xl border-b border-cyan-500/10"
           : "bg-transparent"
       )}
     >
       <div className="container mx-auto px-6 lg:px-12">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-4 group">
-            <div className="w-6 h-6 relative">
+          <a href="#" className="flex items-center gap-4 group relative">
+            <div className="w-10 h-10 relative flex items-center justify-center">
+              {/* Floating Particles */}
+              <div className="absolute inset-0 overflow-visible pointer-events-none">
+                {[...Array(6)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute w-1 h-1 rounded-full bg-blue-400"
+                    initial={{ x: 0, y: 0, opacity: 0 }}
+                    animate={{
+                      x: [0, (i % 2 === 0 ? 1 : -1) * (20 + i * 5), 0],
+                      y: [0, (i < 3 ? -1 : 1) * (20 + i * 5), 0],
+                      opacity: [0, 0.8, 0],
+                      scale: [0, 1.2, 0],
+                    }}
+                    transition={{
+                      duration: 3 + i,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: i * 0.5,
+                    }}
+                    style={{
+                      backgroundColor: i % 2 === 0 ? '#60A5FA' : '#A855F7',
+                      left: '50%',
+                      top: '50%',
+                    }}
+                  />
+                ))}
+              </div>
+
               {/* Abstract logo icon */}
-              <Image
-                src="/logo.png"
-                alt="Cedar Core"
-                width={100}
-                height={100}
-                className="w-full h-full object-contain"
-              />
+              <div className="relative w-7 h-7 z-10">
+                <Image
+                  src="/logo.png"
+                  alt="Cedar Core"
+                  width={100}
+                  height={100}
+                  className="w-full h-full object-contain filter drop-shadow-[0_0_8px_rgba(59,130,246,0.3)] group-hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.5)] transition-all duration-500"
+                />
+              </div>
             </div>
             <span className="text-sm font-medium tracking-tight text-white/90 group-hover:text-white transition-colors">
               Cedar Core
@@ -128,7 +158,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="fixed inset-0 top-16 lg:top-20 bg-slate-950/98 backdrop-blur-2xl z-40"
+            className="fixed inset-0 top-16 lg:top-20 bg-black/98 backdrop-blur-2xl z-40"
           >
             <div className="container mx-auto px-6 lg:px-12 py-12">
               <nav className="flex flex-col gap-8">

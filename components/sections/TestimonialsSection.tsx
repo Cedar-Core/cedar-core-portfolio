@@ -147,8 +147,8 @@ export function TestimonialsSection() {
       aria-label="Client testimonials"
     >
       {/* === BACKGROUND LAYERS (Matched to Hero) === */}
-      {/* 1. Base - Deep Navy/Blue Void */}
-      <div className="absolute inset-0 bg-[#05070B] z-[-2]" />
+      {/* 1. Base - Pure Black Void */}
+      <div className="absolute inset-0 bg-[#000000] z-[-2]" />
 
       {/* 2. Cinematic Noise Overlay */}
       <div
@@ -226,7 +226,7 @@ export function TestimonialsSection() {
                 aria-label={`Testimonial ${activeIndex + 1} of ${testimonials.length}`}
               >
                 <div className="w-full max-w-3xl mx-auto px-4">
-                  <div className="relative bg-linear-to-br from-blue-950/30 to-[#0a0f1e]/80 rounded-2xl p-8 sm:p-12 lg:p-16 border border-blue-500/10 backdrop-blur-md shadow-2xl shadow-blue-900/10">
+                  <div className="relative bg-white/[0.03] backdrop-blur-md rounded-2xl p-8 sm:p-12 lg:p-16 border border-white/10 shadow-2xl">
                     {/* Decorative quotation mark */}
                     <div className="absolute top-6 left-6 sm:top-8 sm:left-8 text-6xl sm:text-7xl lg:text-8xl text-cyan-500/20 font-serif leading-none">
                       "
@@ -339,7 +339,7 @@ export function TestimonialsSection() {
           {testimonials.map((testimonial) => (
             <motion.div
               key={testimonial.id}
-              className="group bg-linear-to-br from-blue-950/20 to-[#0a0f1e]/80 rounded-xl p-6 border border-blue-500/10 hover:border-blue-500/30 transition-all hover:bg-white/5"
+              className="group bg-white/[0.03] backdrop-blur-md rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all hover:bg-white/[0.05]"
               variants={{
                 hidden: { opacity: 0, y: 30, scale: 0.98 },
                 visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55 } },

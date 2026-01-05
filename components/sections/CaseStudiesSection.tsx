@@ -198,8 +198,8 @@ export function CaseStudiesSection() {
       className="relative py-24 sm:py-32 lg:py-40 overflow-hidden"
     >
       {/* === BACKGROUND LAYERS (Matched to Hero) === */}
-      {/* 1. Base - Deep Navy/Blue Void (No top spotlight to ensure seamless transition) */}
-      <div className="absolute inset-0 bg-[#05070B] z-[-2]" />
+      {/* 1. Base - Pure Black Void */}
+      <div className="absolute inset-0 bg-[#000000] z-[-2]" />
 
       {/* 2. Cinematic Noise Overlay */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] mix-blend-overlay"
@@ -218,7 +218,7 @@ export function CaseStudiesSection() {
       </div>
 
       {/* 4. Top Fade (Seamless transition) */}
-      <div className="absolute top-0 left-0 w-full h-32 bg-linear-to-b from-[#05070B] via-[#05070B]/80 to-transparent z-[-1]" />
+      <div className="absolute top-0 left-0 w-full h-32 bg-linear-to-b from-[#000000] via-[#000000]/80 to-transparent z-[-1]" />
 
       <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
@@ -296,8 +296,8 @@ export function CaseStudiesSection() {
           </div>
 
           {/* Gradient fade edges */}
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-linear-to-r from-[#05070B] to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-linear-to-l from-[#05070B] to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-linear-to-r from-[#000000] to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-linear-to-l from-[#000000] to-transparent z-10 pointer-events-none" />
 
           {/* Scrollable container */}
           <motion.div

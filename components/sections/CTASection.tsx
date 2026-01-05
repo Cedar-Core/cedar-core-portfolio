@@ -58,8 +58,8 @@ export function CTASection() {
       className="relative py-20 sm:py-24 lg:py-32 overflow-hidden"
     >
       {/* === BACKGROUND LAYERS (Matched to Hero) === */}
-      {/* 1. Base - Deep Navy/Blue Void */}
-      <div className="absolute inset-0 bg-[#05070B] z-[-2]" />
+      {/* 1. Base - Pure Black Void */}
+      <div className="absolute inset-0 bg-[#000000] z-[-2]" />
 
       {/* 2. Cinematic Noise Overlay */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] mix-blend-overlay"
@@ -222,7 +222,7 @@ export function CTASection() {
         </motion.div>
 
         {/* Bottom gradient fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-[#05070B] to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-[#000000] to-transparent pointer-events-none" />
       </motion.div>
     </section>
   );

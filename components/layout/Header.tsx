@@ -145,7 +145,7 @@ export function Header() {
                       exit={{ opacity: 0, y: 10 }}
                       transition={{ duration: 0.2 }}
                       className={cn(
-                        "absolute top-full left-0 mt-2 bg-gray-900/95 backdrop-blur-lg rounded-xl border border-white/10 shadow-xl overflow-hidden",
+                        "absolute top-full left-0 mt-2 bg-black/95 backdrop-blur-lg rounded-xl border border-white/10 shadow-xl overflow-hidden",
                         key === "services" ? "w-[600px] -left-48" : "w-80"
                       )}
                     >
