@@ -94,7 +94,7 @@ export function Header() {
           {/* Logo */}
           <a href="#" className="flex items-center">
             <span className="text-xl font-bold tracking-tight text-white">
-              ANTIMATTER AI
+              Cedar Core
             </span>
           </a>
 
