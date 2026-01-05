@@ -1,8 +1,11 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { SectionBackground } from "@/components/shared/SectionBackground";
+import { staggerContainer, fadeSlideUp } from "@/lib/animations";
 
 export function CTASection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -28,58 +31,19 @@ export function CTASection() {
     return () => clearInterval(interval);
   }, []);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.25, 0.46, 0.45, 0.94] as any,
-      },
-    },
-  };
-
   return (
     <section
       ref={sectionRef}
       id="contact"
       className="relative py-20 sm:py-24 lg:py-32 overflow-hidden"
     >
-      {/* === BACKGROUND LAYERS (Matched to Hero) === */}
-      {/* 1. Base - Pure Black Void */}
-      <div className="absolute inset-0 bg-[#000000] z-[-2]" />
-
-      {/* 2. Cinematic Noise Overlay */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] mix-blend-overlay"
-        style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
-
-      {/* 3. Subtle Vertical Grid Lines */}
-      <div className="absolute inset-0 z-0 flex justify-center pointer-events-none select-none opacity-40">
-        <div className="w-full max-w-7xl grid grid-cols-6 h-full px-6 lg:px-12">
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-        </div>
-      </div>
-
-
-      {/* Decorative top border */}
-      <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-blue-500/30 to-transparent" />
+      {/* Unified background from shared component */}
+      <SectionBackground
+        showGrid
+        showNoise
+        showTopBorder
+        topBorderColor="blue"
+      />
 
       {/* Subtle background pattern */}
       <div className="absolute inset-0 opacity-20">
@@ -87,14 +51,14 @@ export function CTASection() {
       </div>
 
       <motion.div
-        className="relative container mx-auto px-4 sm:px-6 lg:px-8 text-center"
-        variants={containerVariants}
+        className="relative container mx-auto px-4 sm:px-6 lg:px-8 text-center z-10"
+        variants={staggerContainer}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
       >
         {/* Main Statement */}
         <motion.h2
-          variants={itemVariants}
+          variants={fadeSlideUp}
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-8 sm:mb-12 max-w-5xl mx-auto"
         >
           <span className="block">We turn bold ideas into</span>
@@ -106,9 +70,9 @@ export function CTASection() {
         </motion.h2>
 
         {/* CTA Button */}
-        <motion.div variants={itemVariants} className="mb-12 sm:mb-16">
-          <a
-            href="#contact-form"
+        <motion.div variants={fadeSlideUp} className="mb-12 sm:mb-16">
+          <Link
+            href="/contact"
             className="group relative inline-flex items-center gap-3 px-8 py-4 sm:px-12 sm:py-5 rounded-full overflow-hidden"
           >
             {/* Button background with gradient */}
@@ -136,12 +100,12 @@ export function CTASection() {
                 />
               </svg>
             </span>
-          </a>
+          </Link>
         </motion.div>
 
         {/* Contact Information */}
         <motion.div
-          variants={itemVariants}
+          variants={fadeSlideUp}
           className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 mb-8 sm:mb-12"
         >
           {/* Email */}
@@ -190,7 +154,7 @@ export function CTASection() {
 
         {/* Location and Clock */}
         <motion.div
-          variants={itemVariants}
+          variants={fadeSlideUp}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-gray-500"
         >
           {/* Location */}
@@ -227,4 +191,3 @@ export function CTASection() {
     </section>
   );
 }
-

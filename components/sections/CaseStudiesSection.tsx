@@ -2,8 +2,10 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { MotionDiv } from "@/components/ui/motion";
 import { cn } from "@/lib/utils";
+import { SectionBackground } from "@/components/shared/SectionBackground";
+import { SectionHeading } from "@/components/shared/SectionHeading";
+import { EASE_SMOOTH } from "@/lib/animations";
 
 interface CaseStudy {
   id: string;
@@ -47,7 +49,12 @@ const caseStudies: CaseStudy[] = [
     id: "Drop-x",
     number: "04",
     title: "Drop-x",
-    tags: ["Web Development", "AI And Payment Integration", "Admin Dashboard", "Business Tools"],
+    tags: [
+      "Web Development",
+      "AI And Payment Integration",
+      "Admin Dashboard",
+      "Business Tools",
+    ],
     image: "/images/case-studies/drop-x.png",
     color: "from-blue-500/80 to-violet-600/80",
     href: "#drop-x",
@@ -69,10 +76,15 @@ function CaseStudyCard({ study, index }: { study: CaseStudy; index: number }) {
   return (
     <motion.a
       href={study.href}
-      className="group relative shrink-0 w-[340px] sm:w-[400px] lg:w-[460px] h-[580px] rounded-3xl overflow-hidden cursor-pointer border border-white/5 bg-white/5 backdrop-blur-sm"
+      className="group relative shrink-0 w-85 sm:w-100 lg:w-115 h-145 rounded-3xl overflow-hidden cursor-pointer border border-white/5 bg-white/5 backdrop-blur-sm"
       variants={{
         hidden: { opacity: 0, y: 50, scale: 0.9 },
-        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+        visible: {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+        },
       }}
       whileHover={{ y: -12, transition: { duration: 0.4, ease: "easeOut" } }}
       onMouseEnter={() => setIsHovered(true)}
@@ -197,44 +209,17 @@ export function CaseStudiesSection() {
       id="work"
       className="relative py-24 sm:py-32 lg:py-40 overflow-hidden"
     >
-      {/* === BACKGROUND LAYERS (Matched to Hero) === */}
-      {/* 1. Base - Pure Black Void */}
-      <div className="absolute inset-0 bg-[#000000] z-[-2]" />
+      {/* Unified background from shared component */}
+      <SectionBackground showGrid showNoise showTopFade />
 
-      {/* 2. Cinematic Noise Overlay */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] mix-blend-overlay"
-        style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
-
-      {/* 3. Subtle Vertical Grid Lines */}
-      <div className="absolute inset-0 z-0 flex justify-center pointer-events-none select-none opacity-40">
-        <div className="w-full max-w-7xl grid grid-cols-6 h-full px-6 lg:px-12">
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-        </div>
-      </div>
-
-      {/* 4. Top Fade (Seamless transition) */}
-      <div className="absolute top-0 left-0 w-full h-32 bg-linear-to-b from-[#000000] via-[#000000]/80 to-transparent z-[-1]" />
-
-      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section header */}
-        <motion.div
-          className="text-center max-w-3xl mx-auto mb-16 sm:mb-20"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-medium tracking-tighter text-white mb-6 font-(family-name:var(--font-geist-sans))">
-            Case Studies
-          </h2>
-          <p className="text-xl sm:text-2xl text-blue-200/60 leading-relaxed font-light">
-            Proven results, measurable impact—explore the transformations we've delivered.
-          </p>
-        </motion.div>
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 z-10">
+        {/* Unified heading from shared component */}
+        <SectionHeading
+          title="Case Studies"
+          subtitle="Proven results, measurable impact—explore the transformations we've delivered."
+          align="center"
+          size="lg"
+        />
 
         {/* Carousel container */}
         <div className="relative">
@@ -308,7 +293,7 @@ export function CaseStudiesSection() {
               msOverflowStyle: "none",
             }}
             variants={{
-              visible: { transition: { staggerChildren: 0.15 } }
+              visible: { transition: { staggerChildren: 0.15 } },
             }}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
