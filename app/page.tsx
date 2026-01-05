@@ -7,7 +7,7 @@ import { CTASection } from "@/components/sections/CTASection";
 
 export default function Home() {
   return (
-    <div className="bg-slate-950 text-white">
+    <div className="bg-black text-white">
       {/* Hero Section - Nebula Style */}
       <HeroSectionNebula />
 

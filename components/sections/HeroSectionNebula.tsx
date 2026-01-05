@@ -111,15 +111,15 @@ export function HeroSectionNebula() {
       {/* 0. Neon Beam - Layered above base, below text */}
       <NeonBeam />
 
-      {/* 1. Base Gradient - Deep Navy/Blue */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,#0f172a_0%,#05070B_80%)] z-[-2]" />
+      {/* 1. Base Gradient - Pure Black */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,#000000_0%,#000000_80%)] z-[-2]" />
 
       {/* 2. Top Center Glow - Very Soft Cool Blue */}
       <div className="absolute inset-x-0 top-[-10%] h-[500px] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(59,130,246,0.12),transparent_70%)] z-0 pointer-events-none" />
 
       {/* 3. Central 3D Backdrop Glow - Blue Depth */}
-      {/* 3. Central 3D Backdrop - Deepened for separation */}
-      <div className="absolute right-[-10%] top-[20%] w-[50vw] h-[50vw] bg-[radial-gradient(circle,rgba(15,23,42,0.4)_0%,transparent_70%)] blur-3xl z-0 pointer-events-none mix-blend-multiply" />
+      {/* 3. Central 3D Backdrop - Pure Black for separation */}
+      <div className="absolute right-[-10%] top-[20%] w-[50vw] h-[50vw] bg-[radial-gradient(circle,rgba(0,0,0,0.4)_0%,transparent_70%)] blur-3xl z-0 pointer-events-none mix-blend-multiply" />
 
       {/* 4. Cinematic Noise & Scanlines Overlay */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] mix-blend-overlay"
