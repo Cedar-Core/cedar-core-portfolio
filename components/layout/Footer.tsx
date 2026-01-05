@@ -17,19 +17,22 @@ const footerColumns: FooterColumn[] = [
   {
     title: "Services",
     links: [
-      { label: "Product Design", href: "#product-design" },
-      { label: "Development", href: "#development" },
-      { label: "GTM Strategy", href: "#gtm" },
-      { label: "Healthcare Apps", href: "#healthcare" },
-      { label: "AI Development", href: "#ai-development" },
+      { label: "Web Design & Development", href: "#Web-Design-&-Development" },
+      { label: "Custom Software Systems", href: "#Custom-Software-Systems" },
+      { label: "SaaS & MVP Development", href: "#SaaS-&-MVP-Development" },
+      { label: "AI & Automation Solutions", href: "#AI-&-Automation-Solutions" },
+      { label: "Maintenance & Support", href: "#Maintenance-&-Support" },
       { label: "IoT Development", href: "#iot" },
     ],
   },
   {
     title: "Solutions",
     links: [
-      { label: "Voice Agents", href: "#voice-agents" },
-      { label: "Sentiment AI", href: "#sentiment-ai" },
+      { label: "Workflow Automation", href: "#Workflow-Automation" },
+      { label: "Data & Analytics Tools", href: "#Data-&-Analytics-Tools" },
+      { label: "AI Assistants", href: "#Ai-Assistants" },
+      { label: "Internal Tools For Businesses", href: "#Internal-Tools-For-Businesses" },
+      { label: "Custom Integrations", href: "#Custom-Integrations" },
     ],
   },
   {
@@ -86,7 +89,7 @@ export function Footer() {
       <div className="border-t border-blue-900/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           <p className="text-center text-xs sm:text-sm text-blue-200/40">
-            Antimatter AI, © {currentYear}. All rights reserved.
+            Cedar Core, © {currentYear}. All rights reserved.
           </p>
         </div>
       </div>
