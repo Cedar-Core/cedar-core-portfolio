@@ -1,9 +1,15 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence, useInView, useReducedMotion } from "framer-motion";
-import { MotionDiv } from "@/components/ui/motion";
+import {
+  motion,
+  AnimatePresence,
+  useInView,
+  useReducedMotion,
+} from "framer-motion";
 import { cn } from "@/lib/utils";
+import { SectionBackground } from "@/components/shared/SectionBackground";
+import { SectionHeading } from "@/components/shared/SectionHeading";
 
 interface Testimonial {
   id: string;
@@ -125,18 +131,18 @@ export function TestimonialsSection() {
 
   const cardMotion = prefersReducedMotion
     ? {
-      initial: { opacity: 0 },
-      animate: { opacity: 1 },
-      exit: { opacity: 0 },
-      transition: { duration: 0.2 },
-    }
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        exit: { opacity: 0 },
+        transition: { duration: 0.2 },
+      }
     : {
-      // Premium feel: subtle vertical drift + slight blur, no "pop" scale
-      initial: { opacity: 0, y: 18, filter: "blur(2px)" },
-      animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-      exit: { opacity: 0, y: -18, filter: "blur(2px)" },
-      transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as const },
-    };
+        // Premium feel: subtle vertical drift + slight blur, no "pop" scale
+        initial: { opacity: 0, y: 18, filter: "blur(2px)" },
+        animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+        exit: { opacity: 0, y: -18, filter: "blur(2px)" },
+        transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as const },
+      };
 
   return (
     <section
@@ -146,62 +152,21 @@ export function TestimonialsSection() {
       aria-roledescription="carousel"
       aria-label="Client testimonials"
     >
-      {/* === BACKGROUND LAYERS (Matched to Hero) === */}
-      {/* 1. Base - Pure Black Void */}
-      <div className="absolute inset-0 bg-[#000000] z-[-2]" />
-
-      {/* 2. Cinematic Noise Overlay */}
-      <div
-        className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] mix-blend-overlay"
-        style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }}
+      {/* Unified background from shared component */}
+      <SectionBackground
+        showGrid
+        showNoise
+        showTopBorder
+        topBorderColor="cyan"
       />
 
-      {/* 3. Subtle Vertical Grid Lines */}
-      <div className="absolute inset-0 z-0 flex justify-center pointer-events-none select-none opacity-40">
-        <div className="w-full max-w-7xl grid grid-cols-6 h-full px-6 lg:px-12">
-          <div
-            className="border-r border-white/3 h-full"
-            style={{ maskImage: "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)" }}
-          />
-          <div
-            className="border-r border-white/3 h-full"
-            style={{ maskImage: "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)" }}
-          />
-          <div
-            className="border-r border-white/3 h-full"
-            style={{ maskImage: "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)" }}
-          />
-          <div
-            className="border-r border-white/3 h-full"
-            style={{ maskImage: "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)" }}
-          />
-          <div
-            className="border-r border-white/3 h-full"
-            style={{ maskImage: "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)" }}
-          />
-          <div
-            className="border-r border-white/3 h-full"
-            style={{ maskImage: "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)" }}
-          />
-        </div>
-      </div>
-
-      {/* Decorative top border - Enhanced */}
-      <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-cyan-500/30 to-transparent z-10" />
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <motion.div
-          className="text-center mb-12 sm:mb-16 lg:mb-20"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-            <span className="block">What our clients</span>
-            <span className="block">say about us</span>
-          </h2>
-        </motion.div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Unified heading from shared component */}
+        <SectionHeading
+          title="What our clients say about us"
+          align="center"
+          size="lg"
+        />
 
         {/* Carousel Container */}
         <div
@@ -212,7 +177,7 @@ export function TestimonialsSection() {
           onBlurCapture={resume}
         >
           {/* Testimonial Cards */}
-          <div className="relative h-[400px] sm:h-[450px] lg:h-[500px]">
+          <div className="relative h-100 sm:h-112.5 lg:h-125">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={activeIndex}
@@ -223,10 +188,12 @@ export function TestimonialsSection() {
                 className="absolute inset-0 flex items-center justify-center"
                 role="group"
                 aria-roledescription="slide"
-                aria-label={`Testimonial ${activeIndex + 1} of ${testimonials.length}`}
+                aria-label={`Testimonial ${activeIndex + 1} of ${
+                  testimonials.length
+                }`}
               >
                 <div className="w-full max-w-3xl mx-auto px-4">
-                  <div className="relative bg-white/[0.03] backdrop-blur-md rounded-2xl p-8 sm:p-12 lg:p-16 border border-white/10 shadow-2xl">
+                  <div className="relative bg-white/3 backdrop-blur-md rounded-2xl p-8 sm:p-12 lg:p-16 border border-white/10 shadow-2xl">
                     {/* Decorative quotation mark */}
                     <div className="absolute top-6 left-6 sm:top-8 sm:left-8 text-6xl sm:text-7xl lg:text-8xl text-cyan-500/20 font-serif leading-none">
                       "
@@ -273,7 +240,12 @@ export function TestimonialsSection() {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
             </button>
 
@@ -285,7 +257,9 @@ export function TestimonialsSection() {
                   onClick={() => goToSlide(index)}
                   className={cn(
                     "transition-all duration-500 ease-out rounded-full focus:outline-none focus:ring-2 focus:ring-cyan-500/50",
-                    index === activeIndex ? "w-10 h-2 bg-cyan-500" : "w-2 h-2 bg-blue-900/40 hover:bg-blue-800/60"
+                    index === activeIndex
+                      ? "w-10 h-2 bg-cyan-500"
+                      : "w-2 h-2 bg-blue-900/40 hover:bg-blue-800/60"
                   )}
                   aria-label={`Go to testimonial ${index + 1}`}
                   aria-current={index === activeIndex ? "true" : "false"}
@@ -304,7 +278,12 @@ export function TestimonialsSection() {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </div>
@@ -317,7 +296,9 @@ export function TestimonialsSection() {
                   key={index}
                   className={cn(
                     "h-1 rounded-full transition-all duration-700",
-                    index === activeIndex ? "w-8 bg-cyan-500" : "w-1 bg-gray-700"
+                    index === activeIndex
+                      ? "w-8 bg-cyan-500"
+                      : "w-1 bg-gray-700"
                   )}
                 />
               ))}
@@ -326,7 +307,7 @@ export function TestimonialsSection() {
         </div>
 
         {/* Alternative: Grid layout for desktop (optional) */}
-        <MotionDiv
+        <motion.div
           className="hidden lg:grid lg:grid-cols-3 gap-6 mt-16 max-w-6xl mx-auto"
           initial="hidden"
           whileInView="visible"
@@ -339,26 +320,39 @@ export function TestimonialsSection() {
           {testimonials.map((testimonial) => (
             <motion.div
               key={testimonial.id}
-              className="group bg-white/[0.03] backdrop-blur-md rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all hover:bg-white/[0.05]"
+              className="group bg-white/3 backdrop-blur-md rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all hover:bg-white/5"
               variants={{
                 hidden: { opacity: 0, y: 30, scale: 0.98 },
-                visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55 } },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                  transition: { duration: 0.55 },
+                },
               }}
-              whileHover={prefersReducedMotion ? undefined : { y: -5, transition: { duration: 0.2 } }}
+              whileHover={
+                prefersReducedMotion
+                  ? undefined
+                  : { y: -5, transition: { duration: 0.2 } }
+              }
             >
               <div className="text-4xl text-cyan-500/20 font-serif leading-none mb-4 group-hover:text-cyan-500/40 transition-colors">
-                "
+                &quot;
               </div>
               <blockquote className="text-lg text-blue-100/80 italic leading-relaxed mb-6">
                 {testimonial.quote}
               </blockquote>
               <div>
-                <div className="font-bold text-white mb-1">{testimonial.author}</div>
-                <div className="text-sm text-blue-200/60">{testimonial.company}</div>
+                <div className="font-bold text-white mb-1">
+                  {testimonial.author}
+                </div>
+                <div className="text-sm text-blue-200/60">
+                  {testimonial.company}
+                </div>
               </div>
             </motion.div>
           ))}
-        </MotionDiv>
+        </motion.div>
       </div>
     </section>
   );

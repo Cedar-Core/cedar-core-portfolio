@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -31,7 +30,7 @@ export function Navbar() {
       <div className="container mx-auto px-6 lg:px-12">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-4 group relative">
+          <a href="/" className="flex items-center gap-4 group relative">
             <div className="w-10 h-10 relative flex items-center justify-center">
               {/* Floating Particles */}
               <div className="absolute inset-0 overflow-visible pointer-events-none">
@@ -53,9 +52,9 @@ export function Navbar() {
                       delay: i * 0.5,
                     }}
                     style={{
-                      backgroundColor: i % 2 === 0 ? '#60A5FA' : '#A855F7',
-                      left: '50%',
-                      top: '50%',
+                      backgroundColor: i % 2 === 0 ? "#60A5FA" : "#A855F7",
+                      left: "50%",
+                      top: "50%",
                     }}
                   />
                 ))}
@@ -76,6 +75,28 @@ export function Navbar() {
               Cedar Core
             </span>
           </a>
+
+          {/* Desktop Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-8 mr-8">
+            <a
+              href="/"
+              className="text-sm font-medium text-white/70 hover:text-white transition-colors"
+            >
+              Home
+            </a>
+            <a
+              href="/ecosystem"
+              className="text-sm font-medium text-white/70 hover:text-white transition-colors"
+            >
+              Ecosystem
+            </a>
+            <a
+              href="/contact"
+              className="text-sm font-medium text-white/70 hover:text-white transition-colors"
+            >
+              Contact
+            </a>
+          </nav>
 
           {/* Desktop Navigation - Right side controls */}
           <div className="hidden lg:flex items-center gap-6">
@@ -112,18 +133,24 @@ export function Navbar() {
             >
               <span>Menu</span>
               <div className="flex flex-col gap-1">
-                <span className={cn(
-                  "w-4 h-0.5 bg-current transition-transform duration-300",
-                  isMobileMenuOpen && "rotate-45 translate-y-1.5"
-                )} />
-                <span className={cn(
-                  "w-4 h-0.5 bg-current transition-opacity duration-300",
-                  isMobileMenuOpen && "opacity-0"
-                )} />
-                <span className={cn(
-                  "w-4 h-0.5 bg-current transition-transform duration-300",
-                  isMobileMenuOpen && "-rotate-45 -translate-y-1.5"
-                )} />
+                <span
+                  className={cn(
+                    "w-4 h-0.5 bg-current transition-transform duration-300",
+                    isMobileMenuOpen && "rotate-45 translate-y-1.5"
+                  )}
+                />
+                <span
+                  className={cn(
+                    "w-4 h-0.5 bg-current transition-opacity duration-300",
+                    isMobileMenuOpen && "opacity-0"
+                  )}
+                />
+                <span
+                  className={cn(
+                    "w-4 h-0.5 bg-current transition-transform duration-300",
+                    isMobileMenuOpen && "-rotate-45 -translate-y-1.5"
+                  )}
+                />
               </div>
             </button>
           </div>
@@ -141,9 +168,19 @@ export function Navbar() {
               viewBox="0 0 24 24"
             >
               {isMobileMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               )}
             </svg>
           </button>
@@ -163,11 +200,12 @@ export function Navbar() {
             <div className="container mx-auto px-6 lg:px-12 py-12">
               <nav className="flex flex-col gap-8">
                 {[
-                  { label: "Home", href: "#" },
-                  { label: "Solutions", href: "#solutions" },
-                  { label: "Technology", href: "#technology" },
-                  { label: "About", href: "#about" },
-                  { label: "Contact", href: "#contact" },
+                  { label: "Home", href: "/" },
+                  { label: "Ecosystem", href: "/ecosystem" },
+                  { label: "Solutions", href: "/#solutions" },
+                  { label: "Technology", href: "/#technology" },
+                  { label: "About", href: "/#about" },
+                  { label: "Contact", href: "/contact" },
                 ].map((item, index) => (
                   <motion.a
                     key={item.label}
@@ -191,13 +229,23 @@ export function Navbar() {
                 className="mt-16 pt-8 border-t border-white/10"
               >
                 <a
-                  href="#contact"
+                  href="/contact"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-linear-to-r from-cyan-500 to-blue-600 text-white font-medium hover:from-cyan-400 hover:to-blue-500 transition-all"
                 >
                   Explore the Ecosystem
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
                   </svg>
                 </a>
               </motion.div>
@@ -208,4 +256,3 @@ export function Navbar() {
     </header>
   );
 }
-
