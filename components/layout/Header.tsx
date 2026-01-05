@@ -10,11 +10,11 @@ const navigation = {
     title: "Work",
     hasDropdown: true,
     items: [
-      { title: "Clinix AI", subtitle: "Web & App Design, AI Development, GTM", href: "#clinix" },
-      { title: "Synergies4", subtitle: "App Design, AI Development", href: "#synergies" },
-      { title: "Curehire", subtitle: "Web Design, Development", href: "#curehire" },
-      { title: "OWASP Foundation", subtitle: "Web Design, Development", href: "#owasp" },
-      { title: "Feature", subtitle: "App Design, GTM Strategy", href: "#feature" },
+      { title: "Pointverse", subtitle: "Custom Software, App Design & Development, Software Development", href: "#pointverse" },
+      { title: "Invoverse", subtitle: "Custom Software, Web Design & Development, Business Tools", href: "#invoverse" },
+      { title: "Walletly", subtitle: "App Design, Development, Mobile Development", href: "#walletly" },
+      { title: "Drop-x", subtitle: "Web Design & Development, Business Tools, AI & Payment Integration, Admin Dashboard", href: "#drop-x" },
+      { title: "Feature", subtitle: "App Design, Strategy, Third Party Integrations", href: "#feature" },
     ],
   },
   company: {
