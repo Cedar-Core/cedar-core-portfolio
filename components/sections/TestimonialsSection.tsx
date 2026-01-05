@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, AnimatePresence, useInView, useReducedMotion } from "framer-motion";
 import { MotionDiv } from "@/components/ui/motion";
-import { useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface Testimonial {
@@ -15,88 +14,175 @@ interface Testimonial {
 
 const testimonials: Testimonial[] = [
   {
-    id: "jay-w",
+    id: "Ahmad-K",
     quote:
-      "The Antimatter team worked with me to build my e-commerce site. Within 90 days of launch, our store was exceeding $100k in monthly revenue.",
-    author: "Jay W.",
-    company: "Rakanda Gold Coffee",
+      "Cedar Core helped us redesign our website and organize our internal tools.The process was clear, fast, and professional. Everything was delivered on time, and the system is now much easier for our team to manage.",
+    author: "Ahmad K.",
+    company: "Operations Manager — Local Trading Company",
   },
   {
-    id: "jon-h",
+    id: "Rami-S",
     quote:
-      "We worked with Antimatter to redesign our marketing site and SaaS platform, increasing both customer acquisition and retention.",
-    author: "Jon H.",
-    company: "Keyspace Studio",
+      "We worked with Cedar Core to build the first version of our SaaS platform. They helped us turn the idea into a working MVP and guided us on what features actually matter. Communication was smooth and very professional.",
+    author: "Rami S.",
+    company: "Founder — SaaS Startup",
   },
   {
-    id: "mike-r",
+    id: "Lara-A",
     quote:
-      "We wanted to build a new radiology staffing platform; with Antimatter we were able to design and launch a working MVP in under a month.",
-    author: "Mike R.",
-    company: "RT Direct",
+      "Cedar Core delivered exactly what we needed — a clean system, clear structure, and scalable setup. They focus on solutions, not just code.",
+    author: "Lara A.",
+    company: "Product Lead — SaaS Startup",
   },
 ];
+
+const AUTOPLAY_DELAY = 8500;
+const RESUME_DELAY = 10000;
 
 export function TestimonialsSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Auto-rotate testimonials
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const prefersReducedMotion = useReducedMotion();
+
+  const clearTimers = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    if (resumeTimeoutRef.current) {
+      clearTimeout(resumeTimeoutRef.current);
+      resumeTimeoutRef.current = null;
+    }
+  }, []);
+
+  const stopAutoPlayTemporarily = useCallback(() => {
+    setIsAutoPlaying(false);
+
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+    resumeTimeoutRef.current = setTimeout(() => {
+      setIsAutoPlaying(true);
+    }, RESUME_DELAY);
+  }, []);
+
+  // Auto-rotate (only when visible + autoplay enabled + not reduced motion)
   useEffect(() => {
     if (!isAutoPlaying) return;
+    if (!isInView) return;
+    if (prefersReducedMotion) return;
 
     intervalRef.current = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % testimonials.length);
-    }, 5000); // Change every 5 seconds
+    }, AUTOPLAY_DELAY);
 
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      intervalRef.current = null;
     };
-  }, [isAutoPlaying]);
+  }, [isAutoPlaying, isInView, prefersReducedMotion]);
 
-  const goToSlide = (index: number) => {
-    setActiveIndex(index);
-    setIsAutoPlaying(false);
-    // Resume auto-play after 10 seconds of inactivity
-    setTimeout(() => setIsAutoPlaying(true), 10000);
-  };
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => clearTimers();
+  }, [clearTimers]);
 
-  const nextSlide = () => {
+  const goToSlide = useCallback(
+    (index: number) => {
+      setActiveIndex(index);
+      stopAutoPlayTemporarily();
+    },
+    [stopAutoPlayTemporarily]
+  );
+
+  const nextSlide = useCallback(() => {
     goToSlide((activeIndex + 1) % testimonials.length);
-  };
+  }, [activeIndex, goToSlide]);
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     goToSlide((activeIndex - 1 + testimonials.length) % testimonials.length);
-  };
+  }, [activeIndex, goToSlide]);
+
+  // Pause autoplay on hover/focus so users can read
+  const pause = useCallback(() => {
+    if (prefersReducedMotion) return;
+    setIsAutoPlaying(false);
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, [prefersReducedMotion]);
+
+  const resume = useCallback(() => {
+    if (prefersReducedMotion) return;
+    setIsAutoPlaying(true);
+  }, [prefersReducedMotion]);
+
+  const cardMotion = prefersReducedMotion
+    ? {
+      initial: { opacity: 0 },
+      animate: { opacity: 1 },
+      exit: { opacity: 0 },
+      transition: { duration: 0.2 },
+    }
+    : {
+      // Premium feel: subtle vertical drift + slight blur, no "pop" scale
+      initial: { opacity: 0, y: 18, filter: "blur(2px)" },
+      animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+      exit: { opacity: 0, y: -18, filter: "blur(2px)" },
+      transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as const },
+    };
 
   return (
     <section
       ref={sectionRef}
       id="testimonials"
       className="relative py-20 sm:py-24 lg:py-32 overflow-hidden"
+      aria-roledescription="carousel"
+      aria-label="Client testimonials"
     >
       {/* === BACKGROUND LAYERS (Matched to Hero) === */}
       {/* 1. Base - Deep Navy/Blue Void */}
       <div className="absolute inset-0 bg-[#05070B] z-[-2]" />
 
       {/* 2. Cinematic Noise Overlay */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] mix-blend-overlay"
-        style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
+      <div
+        className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] mix-blend-overlay"
+        style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }}
+      />
 
       {/* 3. Subtle Vertical Grid Lines */}
       <div className="absolute inset-0 z-0 flex justify-center pointer-events-none select-none opacity-40">
         <div className="w-full max-w-7xl grid grid-cols-6 h-full px-6 lg:px-12">
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
-          <div className="border-r border-white/3 h-full" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
+          <div
+            className="border-r border-white/3 h-full"
+            style={{ maskImage: "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)" }}
+          />
+          <div
+            className="border-r border-white/3 h-full"
+            style={{ maskImage: "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)" }}
+          />
+          <div
+            className="border-r border-white/3 h-full"
+            style={{ maskImage: "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)" }}
+          />
+          <div
+            className="border-r border-white/3 h-full"
+            style={{ maskImage: "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)" }}
+          />
+          <div
+            className="border-r border-white/3 h-full"
+            style={{ maskImage: "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)" }}
+          />
+          <div
+            className="border-r border-white/3 h-full"
+            style={{ maskImage: "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)" }}
+          />
         </div>
       </div>
 
@@ -118,17 +204,26 @@ export function TestimonialsSection() {
         </motion.div>
 
         {/* Carousel Container */}
-        <div className="relative max-w-4xl mx-auto">
+        <div
+          className="relative max-w-4xl mx-auto"
+          onMouseEnter={pause}
+          onMouseLeave={resume}
+          onFocusCapture={pause}
+          onBlurCapture={resume}
+        >
           {/* Testimonial Cards */}
           <div className="relative h-[400px] sm:h-[450px] lg:h-[500px]">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={activeIndex}
-                initial={{ opacity: 0, scale: 0.95, filter: "blur(4px)" }}
-                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                exit={{ opacity: 0, scale: 1.05, filter: "blur(4px)" }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                initial={cardMotion.initial as any}
+                animate={cardMotion.animate as any}
+                exit={cardMotion.exit as any}
+                transition={cardMotion.transition as any}
                 className="absolute inset-0 flex items-center justify-center"
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`Testimonial ${activeIndex + 1} of ${testimonials.length}`}
               >
                 <div className="w-full max-w-3xl mx-auto px-4">
                   <div className="relative bg-linear-to-br from-blue-950/30 to-[#0a0f1e]/80 rounded-2xl p-8 sm:p-12 lg:p-16 border border-blue-500/10 backdrop-blur-md shadow-2xl shadow-blue-900/10">
@@ -178,12 +273,7 @@ export function TestimonialsSection() {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
 
@@ -194,14 +284,12 @@ export function TestimonialsSection() {
                   key={index}
                   onClick={() => goToSlide(index)}
                   className={cn(
-                    "transition-all duration-300 rounded-full",
-                    index === activeIndex
-                      ? "w-10 h-2 bg-cyan-500"
-                      : "w-2 h-2 bg-blue-900/40 hover:bg-blue-800/60"
+                    "transition-all duration-500 ease-out rounded-full focus:outline-none focus:ring-2 focus:ring-cyan-500/50",
+                    index === activeIndex ? "w-10 h-2 bg-cyan-500" : "w-2 h-2 bg-blue-900/40 hover:bg-blue-800/60"
                   )}
                   aria-label={`Go to testimonial ${index + 1}`}
-                >
-                </button>
+                  aria-current={index === activeIndex ? "true" : "false"}
+                />
               ))}
             </div>
 
@@ -216,29 +304,22 @@ export function TestimonialsSection() {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
           </div>
 
           {/* Progress indicator */}
-          <div className="mt-6 flex justify-center">
+          <div className="mt-6 flex justify-center" aria-hidden="true">
             <div className="flex gap-1">
               {testimonials.map((_, index) => (
                 <div
                   key={index}
                   className={cn(
-                    "h-1 rounded-full transition-all duration-500",
-                    index === activeIndex
-                      ? "w-8 bg-cyan-500"
-                      : "w-1 bg-gray-700"
+                    "h-1 rounded-full transition-all duration-700",
+                    index === activeIndex ? "w-8 bg-cyan-500" : "w-1 bg-gray-700"
                   )}
-                ></div>
+                />
               ))}
             </div>
           </div>
@@ -252,18 +333,18 @@ export function TestimonialsSection() {
           viewport={{ once: true, margin: "-50px" }}
           variants={{
             hidden: { opacity: 0 },
-            visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+            visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
           }}
         >
-          {testimonials.map((testimonial, index) => (
+          {testimonials.map((testimonial) => (
             <motion.div
               key={testimonial.id}
               className="group bg-linear-to-br from-blue-950/20 to-[#0a0f1e]/80 rounded-xl p-6 border border-blue-500/10 hover:border-blue-500/30 transition-all hover:bg-white/5"
               variants={{
-                hidden: { opacity: 0, y: 30, scale: 0.95 },
-                visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                hidden: { opacity: 0, y: 30, scale: 0.98 },
+                visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55 } },
               }}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              whileHover={prefersReducedMotion ? undefined : { y: -5, transition: { duration: 0.2 } }}
             >
               <div className="text-4xl text-cyan-500/20 font-serif leading-none mb-4 group-hover:text-cyan-500/40 transition-colors">
                 "
@@ -282,4 +363,3 @@ export function TestimonialsSection() {
     </section>
   );
 }
-

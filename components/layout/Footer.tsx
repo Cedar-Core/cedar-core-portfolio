@@ -39,9 +39,10 @@ const footerColumns: FooterColumn[] = [
     title: "Resources",
     links: [
       { label: "AI Vendor Matrix", href: "#ai-vendor-matrix" },
-      { label: "Clinix AI", href: "#clinix-ai" },
-      { label: "Synergies4", href: "#synergies4" },
-      { label: "Curehire", href: "#curehire" },
+      { label: "Pointverse", href: "#pointverse" },
+      { label: "Invoverse", href: "#invoverse" },
+      { label: "Walletly", href: "#walletly" },
+      { label: "Drop-x", href: "#drop-x" },
       { label: "Feature", href: "#feature" },
       { label: "OWASP", href: "#owasp" },
       { label: "Contact", href: "#contact" },
