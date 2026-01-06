@@ -20,7 +20,7 @@ export async function authenticate(formData: FormData) {
     return { success: true };
   } catch (error) {
     console.error("❌ Authentication error:", error);
-    
+
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":

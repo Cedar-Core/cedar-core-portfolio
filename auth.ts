@@ -22,7 +22,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       async authorize(credentials) {
         console.log("🔐 Authorize called with:", { email: credentials?.email });
-        
+
         const parsed = z
           .object({
             email: z.string().email(),
@@ -47,10 +47,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
 
-        console.log("✅ User found:", { email: user.email, role: user.role?.name });
+        console.log("✅ User found:", {
+          email: user.email,
+          role: user.role?.name,
+        });
 
         const ok = await bcrypt.compare(password, user.password);
-        
+
         if (!ok) {
           console.log("❌ Password mismatch");
           return null;
