@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model CaseStudy {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  number       String?
+  title        String
+  shortSummary String?
+  tags         Json?
+  coverImage   String?
+  accentFrom   String?
+  accentTo     String?
+  href         String?
+  featured     Boolean  @default(false)
+  published    Boolean  @default(false)
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([published, featured, sortOrder])
+}
+
+model Testimonial {
+  id         String   @id @default(cuid())
+  quote      String
+  author     String
+  company    String?
+  avatarUrl  String?
+  featured   Boolean  @default(false)
+  published  Boolean  @default(false)
+  sortOrder  Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([published, featured, sortOrder])
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  roleId    String
+  role      UserRole @relation(fields: [roleId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserRole {
+  id    String @id @default(cuid())
+  name  String @unique
+  users User[]
+}
