@@ -1,12 +1,12 @@
 import { prisma } from "@/lib/db/prisma";
 import TestimonialsClient from "./testimonials-client";
+import type { Testimonial } from "@prisma/client";
 
 export default async function TestimonialsPage() {
-    const testimonials = await prisma.testimonial.findMany({
+    const testimonials: Testimonial[] = await prisma.testimonial.findMany({
         orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
     });
 
-    // Serialize dates safely for client component
     const safe = testimonials.map((t) => ({
         ...t,
         createdAt: t.createdAt.toISOString(),
