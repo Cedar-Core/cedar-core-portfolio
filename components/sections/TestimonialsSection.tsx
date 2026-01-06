@@ -11,43 +11,47 @@ import { cn } from "@/lib/utils";
 import { SectionBackground } from "@/components/shared/SectionBackground";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 
-interface Testimonial {
-  id: string;
-  quote: string;
-  author: string;
-  company: string;
+import { TestimonialDTO } from "@/lib/db/queries";
+
+interface TestimonialSectionProps {
+  items: TestimonialDTO[];
 }
 
-const testimonials: Testimonial[] = [
-  {
-    id: "Ahmad-K",
-    quote:
-      "Cedar Core helped us redesign our website and organize our internal tools.The process was clear, fast, and professional. Everything was delivered on time, and the system is now much easier for our team to manage.",
-    author: "Ahmad K.",
-    company: "Operations Manager — Local Trading Company",
-  },
-  {
-    id: "Rami-S",
-    quote:
-      "We worked with Cedar Core to build the first version of our SaaS platform. They helped us turn the idea into a working MVP and guided us on what features actually matter. Communication was smooth and very professional.",
-    author: "Rami S.",
-    company: "Founder — SaaS Startup",
-  },
-  {
-    id: "Lara-A",
-    quote:
-      "Cedar Core delivered exactly what we needed — a clean system, clear structure, and scalable setup. They focus on solutions, not just code.",
-    author: "Lara A.",
-    company: "Product Lead — SaaS Startup",
-  },
-];
+
 
 const AUTOPLAY_DELAY = 8500;
 const RESUME_DELAY = 10000;
 
-export function TestimonialsSection() {
+export function TestimonialsSection({ items }: TestimonialSectionProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
+  // Early return if no testimonials
+  if (!items || items.length === 0) {
+    return (
+      <section
+        id="testimonials"
+        className="relative py-20 sm:py-24 lg:py-32 overflow-hidden"
+      >
+        <SectionBackground
+          showGrid
+          showNoise
+          showTopBorder
+          topBorderColor="cyan"
+        />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <SectionHeading
+            title="What our clients say about us"
+            align="center"
+            size="lg"
+          />
+          <div className="text-center text-white/60 mt-8">
+            No testimonials available yet.
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
@@ -84,7 +88,7 @@ export function TestimonialsSection() {
     if (prefersReducedMotion) return;
 
     intervalRef.current = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % testimonials.length);
+      setActiveIndex((prev) => (prev + 1) % items.length);
     }, AUTOPLAY_DELAY);
 
     return () => {
@@ -107,12 +111,12 @@ export function TestimonialsSection() {
   );
 
   const nextSlide = useCallback(() => {
-    goToSlide((activeIndex + 1) % testimonials.length);
-  }, [activeIndex, goToSlide]);
+    goToSlide((activeIndex + 1) % items.length);
+  }, [activeIndex, goToSlide, items.length]);
 
   const prevSlide = useCallback(() => {
-    goToSlide((activeIndex - 1 + testimonials.length) % testimonials.length);
-  }, [activeIndex, goToSlide]);
+    goToSlide((activeIndex - 1 + items.length) % items.length);
+  }, [activeIndex, goToSlide, items.length]);
 
   // Pause autoplay on hover/focus so users can read
   const pause = useCallback(() => {
@@ -131,18 +135,18 @@ export function TestimonialsSection() {
 
   const cardMotion = prefersReducedMotion
     ? {
-        initial: { opacity: 0 },
-        animate: { opacity: 1 },
-        exit: { opacity: 0 },
-        transition: { duration: 0.2 },
-      }
+      initial: { opacity: 0 },
+      animate: { opacity: 1 },
+      exit: { opacity: 0 },
+      transition: { duration: 0.2 },
+    }
     : {
-        // Premium feel: subtle vertical drift + slight blur, no "pop" scale
-        initial: { opacity: 0, y: 18, filter: "blur(2px)" },
-        animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-        exit: { opacity: 0, y: -18, filter: "blur(2px)" },
-        transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as const },
-      };
+      // Premium feel: subtle vertical drift + slight blur, no "pop" scale
+      initial: { opacity: 0, y: 18, filter: "blur(2px)" },
+      animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+      exit: { opacity: 0, y: -18, filter: "blur(2px)" },
+      transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as const },
+    };
 
   return (
     <section
@@ -188,9 +192,8 @@ export function TestimonialsSection() {
                 className="absolute inset-0 flex items-center justify-center"
                 role="group"
                 aria-roledescription="slide"
-                aria-label={`Testimonial ${activeIndex + 1} of ${
-                  testimonials.length
-                }`}
+                aria-label={`Testimonial ${activeIndex + 1} of ${items.length
+                  }`}
               >
                 <div className="w-full max-w-3xl mx-auto px-4">
                   <div className="relative bg-white/3 backdrop-blur-md rounded-2xl p-8 sm:p-12 lg:p-16 border border-white/10 shadow-2xl">
@@ -201,17 +204,17 @@ export function TestimonialsSection() {
 
                     {/* Quote text */}
                     <blockquote className="relative z-10 text-xl sm:text-2xl lg:text-3xl text-blue-100/90 italic leading-relaxed mb-8 sm:mb-10">
-                      {testimonials[activeIndex].quote}
+                      {items[activeIndex].quote}
                     </blockquote>
 
                     {/* Author info */}
                     <div className="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-6 border-t border-gray-800/50">
                       <div>
                         <div className="text-lg sm:text-xl font-bold text-white mb-1">
-                          {testimonials[activeIndex].author}
+                          {items[activeIndex].author}
                         </div>
                         <div className="text-sm sm:text-base text-blue-200/60">
-                          {testimonials[activeIndex].company}
+                          {items[activeIndex].company ?? ""}
                         </div>
                       </div>
 
@@ -251,7 +254,7 @@ export function TestimonialsSection() {
 
             {/* Dots indicator */}
             <div className="flex items-center gap-2">
-              {testimonials.map((_, index) => (
+              {items.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => goToSlide(index)}
@@ -291,7 +294,7 @@ export function TestimonialsSection() {
           {/* Progress indicator */}
           <div className="mt-6 flex justify-center" aria-hidden="true">
             <div className="flex gap-1">
-              {testimonials.map((_, index) => (
+              {items.map((_, index) => (
                 <div
                   key={index}
                   className={cn(
@@ -317,7 +320,7 @@ export function TestimonialsSection() {
             visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
           }}
         >
-          {testimonials.map((testimonial) => (
+          {items.map((testimonial) => (
             <motion.div
               key={testimonial.id}
               className="group bg-white/3 backdrop-blur-md rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all hover:bg-white/5"

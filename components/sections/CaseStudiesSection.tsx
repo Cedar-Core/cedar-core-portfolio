@@ -7,75 +7,20 @@ import { SectionBackground } from "@/components/shared/SectionBackground";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { EASE_SMOOTH } from "@/lib/animations";
 
-interface CaseStudy {
-  id: string;
-  number: string;
-  title: string;
-  tags: string[];
-  image: string;
-  color: string;
-  href: string;
+import { CaseStudyDTO } from "@/lib/db/queries";
+
+interface CaseStudySectionProps {
+  items: CaseStudyDTO[];
 }
 
-const caseStudies: CaseStudy[] = [
-  {
-    id: "PointVerse",
-    number: "01",
-    title: "PointVerse",
-    tags: ["Custom System", "SaaS", "Software Development"],
-    image: "/images/case-studies/pointverse.png",
-    color: "from-blue-600/80 to-cyan-600/80",
-    href: "#pointverse",
-  },
-  {
-    id: "Invoverse",
-    number: "02",
-    title: "Invoverse",
-    tags: ["Custom System", "Web Development", "SaaS", "Software Development"],
-    image: "/images/case-studies/invoverse.png",
-    color: "from-cyan-600/80 to-teal-600/80",
-    href: "#invoverse",
-  },
-  {
-    id: "Walletly",
-    number: "03",
-    title: "Walletly",
-    tags: ["App Development", "Mobile Development"],
-    image: "/images/case-studies/walletly.png",
-    color: "from-indigo-600/80 to-blue-600/80",
-    href: "#walletly",
-  },
-  {
-    id: "Drop-x",
-    number: "04",
-    title: "Drop-x",
-    tags: [
-      "Web Development",
-      "AI And Payment Integration",
-      "Admin Dashboard",
-      "Business Tools",
-    ],
-    image: "/images/case-studies/drop-x.png",
-    color: "from-blue-500/80 to-violet-600/80",
-    href: "#drop-x",
-  },
-  {
-    id: "feature",
-    number: "05",
-    title: "Feature",
-    tags: ["App Design", "GTM"],
-    image: "/images/case-studies/feature.jpg",
-    color: "from-violet-600/80 to-fuchsia-600/80",
-    href: "#feature",
-  },
-];
 
-function CaseStudyCard({ study, index }: { study: CaseStudy; index: number }) {
+
+function CaseStudyCard({ study, index }: { study: CaseStudyDTO; index: number }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.a
-      href={study.href}
+      href={study.href ?? undefined}
       className="group relative shrink-0 w-85 sm:w-100 lg:w-115 h-145 rounded-3xl overflow-hidden cursor-pointer border border-white/5 bg-white/5 backdrop-blur-sm"
       variants={{
         hidden: { opacity: 0, y: 50, scale: 0.9 },
@@ -170,7 +115,30 @@ function CaseStudyCard({ study, index }: { study: CaseStudy; index: number }) {
   );
 }
 
-export function CaseStudiesSection() {
+export function CaseStudiesSection({ items }: CaseStudySectionProps) {
+  // Early return if no case studies
+  if (!items || items.length === 0) {
+    return (
+      <section
+        id="work"
+        className="relative py-24 sm:py-32 lg:py-40 overflow-hidden"
+      >
+        <SectionBackground showGrid showNoise showTopFade />
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 z-10">
+          <SectionHeading
+            title="Case Studies"
+            subtitle="Proven results, measurable impact—explore the transformations we've delivered."
+            align="center"
+            size="lg"
+          />
+          <div className="text-center text-white/60 mt-8">
+            No case studies available yet.
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   const sectionRef = useRef<HTMLElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
@@ -298,7 +266,7 @@ export function CaseStudiesSection() {
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
           >
-            {caseStudies.map((study, index) => (
+            {items.map((study, index) => (
               <div key={study.id} className="snap-start">
                 <CaseStudyCard study={study} index={index} />
               </div>

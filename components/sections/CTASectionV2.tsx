@@ -213,7 +213,7 @@ export function CTASectionV2() {
               />
             </svg>
             <span className="text-sm font-light">
-              Atlanta, GA — Serving globally
+              Beirut, Lebanon — Serving globally
             </span>
           </div>
 
