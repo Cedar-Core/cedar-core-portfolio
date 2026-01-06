@@ -1,33 +1,27 @@
 "use client";
 
 import React, { useState } from "react";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { BarChart3, Lock, Mail, Loader2, AlertCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { authenticate } from "@/lib/actions/auth";
 
 export default function LoginPage() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
         setError(null);
 
         try {
-            const result = await signIn("credentials", {
-                email,
-                password,
-                redirect: false,
-            });
+            const formData = new FormData(e.currentTarget);
+            const result = await authenticate(formData);
 
             if (result?.error) {
-                setError("Invalid email or password");
+                setError(result.error);
             } else {
                 router.push("/admins-panel-resttt");
                 router.refresh();
@@ -78,9 +72,8 @@ export default function LoginPage() {
                                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-blue-500 transition-colors" />
                                 <input
                                     type="email"
+                                    name="email"
                                     required
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
                                     placeholder="admin@cedarcore.com"
                                     className="w-full bg-black/40 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                                 />
@@ -93,9 +86,8 @@ export default function LoginPage() {
                                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 group-focus-within:text-blue-500 transition-colors" />
                                 <input
                                     type="password"
+                                    name="password"
                                     required
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
                                     placeholder="••••••••"
                                     className="w-full bg-black/40 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                                 />

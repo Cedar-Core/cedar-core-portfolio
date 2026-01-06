@@ -5,7 +5,7 @@ export const authConfig = {
         signIn: "/admins-panel-resttt/login",
     },
     callbacks: {
-        authorized({ auth, request: { nextUrl } }) {
+        authorized: async ({ auth, request: { nextUrl } }) => {
             const isAdminPath = nextUrl.pathname.startsWith("/admins-panel-resttt");
             const isLoginPage = nextUrl.pathname === "/admins-panel-resttt/login";
 

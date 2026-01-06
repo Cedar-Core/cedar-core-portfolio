@@ -15,8 +15,9 @@ import {
     X,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { SessionProvider, signOut } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/Toaster";
+import { handleSignOut } from "@/lib/actions/auth";
 
 const sidebarItems = [
     { name: "Dashboard", href: "/admins-panel-resttt", icon: BarChart3 },
@@ -43,8 +44,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
-    const handleSignOut = () => {
-        signOut({ callbackUrl: "/admins-panel-resttt/login" });
+    const onSignOut = async () => {
+        await handleSignOut();
     };
 
     return (
@@ -121,7 +122,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                         <span className="font-medium">Exit to Site</span>
                                     </Link>
                                     <button
-                                        onClick={handleSignOut}
+                                        onClick={onSignOut}
                                         className="mt-1 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm text-red-200/80 hover:bg-red-500/10 hover:text-red-200"
                                     >
                                         <LogOut className="h-5 w-5" />
@@ -193,7 +194,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                             <span className="font-medium">Exit to Site</span>
                                         </Link>
                                         <button
-                                            onClick={handleSignOut}
+                                            onClick={onSignOut}
                                             className="mt-1 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm text-red-200/80 hover:bg-red-500/10 hover:text-red-200"
                                         >
                                             <LogOut className="h-5 w-5" />
