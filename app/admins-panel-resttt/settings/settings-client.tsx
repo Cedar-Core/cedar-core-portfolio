@@ -76,7 +76,7 @@ export default function SettingsClient({ user, stats }: SettingsClientProps) {
                 animate={{ opacity: 1, y: 0 }}
                 className="flex items-center gap-3"
             >
-                <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-600/20 to-purple-600/20 border border-white/10">
+                <div className="p-3 rounded-2xl bg-linear-to-br from-blue-600/20 to-purple-600/20 border border-white/10">
                     <Settings className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -104,7 +104,7 @@ export default function SettingsClient({ user, stats }: SettingsClientProps) {
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center font-bold text-2xl shadow-lg shadow-blue-900/30">
+                        <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-blue-600 to-indigo-600 flex items-center justify-center font-bold text-2xl shadow-lg shadow-blue-900/30">
                             {user?.email?.charAt(0).toUpperCase() || "A"}
                         </div>
                         <div>
@@ -203,7 +203,7 @@ export default function SettingsClient({ user, stats }: SettingsClientProps) {
                             disabled={isPending || !passwordForm.currentPassword || !passwordForm.newPassword}
                             className={cn(
                                 "w-full py-3 rounded-xl font-medium text-sm transition-all",
-                                "bg-gradient-to-r from-blue-600 to-purple-600 text-white",
+                                "bg-linear-to-r from-blue-600 to-purple-600 text-white",
                                 "hover:from-blue-500 hover:to-purple-500",
                                 "disabled:opacity-50 disabled:cursor-not-allowed",
                                 "flex items-center justify-center gap-2"

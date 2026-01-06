@@ -28,7 +28,7 @@ const sidebarItems = [
 function Brand() {
     return (
         <div className="flex items-center gap-2 font-semibold tracking-tight">
-            <div className="grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/[0.06] shadow-[0_0_0_1px_rgba(255,255,255,0.02)]">
+            <div className="grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/6 shadow-[0_0_0_1px_rgba(255,255,255,0.02)]">
                 <BarChart3 className="h-5 w-5 text-white/85" />
             </div>
             <div className="leading-none">
@@ -62,7 +62,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         <Brand />
                         <button
                             onClick={() => setIsMobileMenuOpen((v) => !v)}
-                            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/80 hover:bg-white/[0.08]"
+                            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/80 hover:bg-white/8"
                             aria-label="Toggle menu"
                         >
                             {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -90,13 +90,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                                 "group relative flex items-center gap-3 rounded-2xl px-4 py-3 text-sm transition",
                                                 isActive
                                                     ? "text-white"
-                                                    : "text-white/60 hover:text-white hover:bg-white/[0.06]"
+                                                    : "text-white/60 hover:text-white hover:bg-white/6"
                                             )}
                                         >
                                             {isActive && (
                                                 <motion.div
                                                     layoutId="active-nav"
-                                                    className="absolute inset-0 rounded-2xl border border-white/10 bg-white/[0.06]"
+                                                    className="absolute inset-0 rounded-2xl border border-white/10 bg-white/6"
                                                 />
                                             )}
                                             <Icon
@@ -112,10 +112,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             </nav>
 
                             <div className="px-4 pb-6">
-                                <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2">
+                                <div className="rounded-2xl border border-white/10 bg-white/4 p-2">
                                     <Link
                                         href="/"
-                                        className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-white/70 hover:bg-white/[0.06] hover:text-white"
+                                        className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-white/70 hover:bg-white/6 hover:text-white"
                                     >
                                         <Home className="h-5 w-5" />
                                         <span className="font-medium">Exit to Site</span>
@@ -154,7 +154,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                         <Brand />
                                         <button
                                             onClick={() => setIsMobileMenuOpen(false)}
-                                            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/80 hover:bg-white/[0.08]"
+                                            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/80 hover:bg-white/8"
                                         >
                                             <X className="h-5 w-5" />
                                         </button>
@@ -172,8 +172,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                                     className={cn(
                                                         "flex items-center gap-3 rounded-2xl px-4 py-3 text-base",
                                                         isActive
-                                                            ? "border border-white/10 bg-white/[0.06] text-white"
-                                                            : "text-white/70 hover:bg-white/[0.06] hover:text-white"
+                                                            ? "border border-white/10 bg-white/6 text-white"
+                                                            : "text-white/70 hover:bg-white/6 hover:text-white"
                                                     )}
                                                 >
                                                     <Icon className="h-5 w-5" />
@@ -183,11 +183,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                         })}
                                     </div>
 
-                                    <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.04] p-2">
+                                    <div className="mt-8 rounded-2xl border border-white/10 bg-white/4 p-2">
                                         <Link
                                             href="/"
                                             onClick={() => setIsMobileMenuOpen(false)}
-                                            className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-white/70 hover:bg-white/[0.06] hover:text-white"
+                                            className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-white/70 hover:bg-white/6 hover:text-white"
                                         >
                                             <Home className="h-5 w-5" />
                                             <span className="font-medium">Exit to Site</span>
