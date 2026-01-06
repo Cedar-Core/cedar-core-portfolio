@@ -27,7 +27,7 @@ function Stat({
                         <div className="text-xs text-white/50">{sub}</div>
                     </div>
 
-                    <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-3">
+                    <div className="rounded-2xl border border-white/10 bg-white/6 p-3">
                         <Icon className="h-5 w-5 text-white/70" />
                     </div>
                 </div>

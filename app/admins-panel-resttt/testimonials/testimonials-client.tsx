@@ -88,8 +88,8 @@ function TogglePill({
             className={cn(
                 "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs transition",
                 checked
-                    ? "border-white/15 bg-white/[0.10] text-white"
-                    : "border-white/10 bg-white/5 text-white/70 hover:bg-white/[0.08]",
+                    ? "border-white/15 bg-white/10 text-white"
+                    : "border-white/10 bg-white/5 text-white/70 hover:bg-white/8",
                 disabled && "pointer-events-none opacity-60"
             )}
             title={`Toggle ${label}`}
@@ -253,7 +253,7 @@ export default function TestimonialsClient({
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                        <div className="grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/[0.06]">
+                        <div className="grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/6">
                             <MessageSquare className="h-5 w-5 text-white/80" />
                         </div>
                         <div>
@@ -277,7 +277,7 @@ export default function TestimonialsClient({
             </div>
 
             {/* Toolbar */}
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+            <div className="rounded-2xl border border-white/10 bg-white/4 p-4">
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                     <div className="flex items-center gap-2 text-sm text-white/70">
                         <Badge>{filtered.length} shown</Badge>
@@ -298,7 +298,7 @@ export default function TestimonialsClient({
             </div>
 
             {/* Table (desktop) */}
-            <div className="hidden overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] md:block">
+            <div className="hidden overflow-hidden rounded-2xl border border-white/10 bg-white/4 md:block">
                 <div className="grid grid-cols-12 gap-3 border-b border-white/10 bg-black/20 px-5 py-3 text-xs text-white/55">
                     <div className="col-span-3">Person</div>
                     <div className="col-span-3">Role / Company</div>
@@ -311,7 +311,7 @@ export default function TestimonialsClient({
                     {filtered.map((t) => (
                         <div
                             key={t.id}
-                            className="grid grid-cols-12 gap-3 px-5 py-4 text-sm hover:bg-white/[0.03] transition"
+                            className="grid grid-cols-12 gap-3 px-5 py-4 text-sm hover:bg-white/3 transition"
                         >
                             <div className="col-span-3">
                                 <div className="flex items-center justify-between gap-2">
@@ -356,7 +356,7 @@ export default function TestimonialsClient({
                                 <button
                                     onClick={() => openEdit(t)}
                                     className={cn(
-                                        "rounded-xl border border-white/10 bg-white/[0.04] p-2 text-white/75 hover:bg-white/[0.08]",
+                                        "rounded-xl border border-white/10 bg-white/4 p-2 text-white/75 hover:bg-white/8",
                                         isPending && "opacity-60 pointer-events-none"
                                     )}
                                     title="Edit"
@@ -366,7 +366,7 @@ export default function TestimonialsClient({
                                 <button
                                     onClick={() => remove(t.id)}
                                     className={cn(
-                                        "rounded-xl border border-white/10 bg-white/[0.04] p-2 text-white/75 hover:bg-white/[0.08]",
+                                        "rounded-xl border border-white/10 bg-white/4 p-2 text-white/75 hover:bg-white/8",
                                         isPending && "opacity-60 pointer-events-none"
                                     )}
                                     title="Delete"
@@ -388,7 +388,7 @@ export default function TestimonialsClient({
             {/* Mobile list */}
             <div className="grid gap-3 md:hidden">
                 {filtered.map((t) => (
-                    <div key={t.id} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                    <div key={t.id} className="rounded-2xl border border-white/10 bg-white/4 p-4">
                         <div className="flex items-start justify-between gap-3">
                             <div>
                                 <div className="text-base font-semibold text-white">{t.author}</div>
@@ -400,7 +400,7 @@ export default function TestimonialsClient({
                                 <button
                                     onClick={() => openEdit(t)}
                                     className={cn(
-                                        "rounded-xl border border-white/10 bg-white/[0.04] p-2 text-white/75 hover:bg-white/[0.08]",
+                                        "rounded-xl border border-white/10 bg-white/4 p-2 text-white/75 hover:bg-white/8",
                                         isPending && "opacity-60 pointer-events-none"
                                     )}
                                 >
@@ -409,7 +409,7 @@ export default function TestimonialsClient({
                                 <button
                                     onClick={() => remove(t.id)}
                                     className={cn(
-                                        "rounded-xl border border-white/10 bg-white/[0.04] p-2 text-white/75 hover:bg-white/[0.08]",
+                                        "rounded-xl border border-white/10 bg-white/4 p-2 text-white/75 hover:bg-white/8",
                                         isPending && "opacity-60 pointer-events-none"
                                     )}
                                 >
@@ -439,7 +439,7 @@ export default function TestimonialsClient({
                 ))}
 
                 {filtered.length === 0 && (
-                    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-10 text-center text-sm text-white/55">
+                    <div className="rounded-2xl border border-white/10 bg-white/4 p-10 text-center text-sm text-white/55">
                         No testimonials found.
                     </div>
                 )}
@@ -471,7 +471,7 @@ export default function TestimonialsClient({
                                 </div>
                                 <button
                                     onClick={closeModal}
-                                    className="rounded-xl border border-white/10 bg-white/[0.04] p-2 text-white/75 hover:bg-white/[0.08]"
+                                    className="rounded-xl border border-white/10 bg-white/4 p-2 text-white/75 hover:bg-white/8"
                                 >
                                     <X className="h-5 w-5" />
                                 </button>
@@ -550,7 +550,7 @@ export default function TestimonialsClient({
                                             onClick={() => setForm((p) => ({ ...p, published: !p.published }))}
                                             className={cn(
                                                 "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm",
-                                                "border border-white/10 bg-white/5 text-white/80 hover:bg-white/[0.08]"
+                                                "border border-white/10 bg-white/5 text-white/80 hover:bg-white/8"
                                             )}
                                         >
                                             {form.published ? <Check className="h-4 w-4" /> : null}
@@ -562,7 +562,7 @@ export default function TestimonialsClient({
                                             onClick={() => setForm((p) => ({ ...p, featured: !p.featured }))}
                                             className={cn(
                                                 "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm",
-                                                "border border-white/10 bg-white/5 text-white/80 hover:bg-white/[0.08]"
+                                                "border border-white/10 bg-white/5 text-white/80 hover:bg-white/8"
                                             )}
                                         >
                                             {form.featured ? <Check className="h-4 w-4" /> : null}
@@ -576,7 +576,7 @@ export default function TestimonialsClient({
                                     <div className="flex gap-2">
                                         <button
                                             onClick={closeModal}
-                                            className="h-10 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white/80 hover:bg-white/[0.08]"
+                                            className="h-10 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white/80 hover:bg-white/8"
                                         >
                                             Cancel
                                         </button>
