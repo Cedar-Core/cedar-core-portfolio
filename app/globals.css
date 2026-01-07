@@ -275,3 +275,43 @@ body {
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
 }
+
+/* ============================================================================
+   CEDAR CIRCUIT HERO - Global Styles
+   ============================================================================ */
+
+/* Base visibility: hidden on mobile, visible on md+ */
+.cedar-circuit-wrapper {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+@media (min-width: 768px) {
+  .cedar-circuit-wrapper {
+    display: flex;
+    opacity: 0.85;
+  }
+}
+
+/* Large screens: full opacity */
+@media (min-width: 1024px) {
+  .cedar-circuit-wrapper {
+    opacity: 0.95;
+  }
+}
+
+/* Reduced motion: disable all cedar animations */
+@media (prefers-reduced-motion: reduce) {
+  .cedar-circuit-wrapper * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Mobile optimization: reduced visual complexity */
+@media (max-width: 767px) {
+  .cedar-circuit-wrapper {
+    display: none !important;
+  }
+}

@@ -1,20 +1,10 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
-import dynamic from "next/dynamic";
 import { useCountUp } from "@/hooks/useCountUp";
 import { NeonBeam } from "@/components/effects/NeonBeam";
-
-// Lazy load Three.js components
-const Scene3D = dynamic(
-  () => import("@/components/three/Scene3D").then((mod) => ({ default: mod.Scene3D })),
-  { ssr: false }
-);
-const HeroRing = dynamic(
-  () => import("@/components/three/HeroRing").then((mod) => ({ default: mod.HeroRing })),
-  { ssr: false }
-);
+import { CedarCircuitHero } from "@/components/effects/CedarCircuitHero";
 
 // Animated counter component
 function AnimatedStat({
@@ -67,13 +57,6 @@ function AnimatedStat({
 
 export function HeroSectionNebula() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [show3D, setShow3D] = useState(false);
-
-  useEffect(() => {
-    // Delay 3D loading for smoother initial page load
-    const timer = setTimeout(() => setShow3D(true), 300);
-    return () => clearTimeout(timer);
-  }, []);
 
   // Animation variants
   const containerVariants = {
@@ -172,9 +155,9 @@ export function HeroSectionNebula() {
         />
       </div>
 
-      {/* === 3D RING === */}
+      {/* === CIRCUIT CEDAR VISUAL === */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* Wandering Neon Glow Behind Model - 6% Opacity */}
+        {/* Wandering Neon Glow Behind Visual - 6% Opacity */}
         <motion.div
           className="absolute right-[5%] lg:right-[22%] top-1/2 -translate-y-1/2 w-[40vw] h-[40vw] bg-[radial-gradient(circle,rgba(45,124,255,0.06)_0%,transparent_70%)] blur-[80px]"
           animate={{
@@ -188,14 +171,15 @@ export function HeroSectionNebula() {
           }}
         />
 
-        {/* Pushed further right and constrained */}
-        {/* Position: Visually centered, anchored right to balance text. Larger scale needed offset. */}
-        <div className="absolute right-[-5%] lg:right-[22%] top-1/2 -translate-y-[50%] w-full lg:w-[50%] h-[75%] opacity-100 mix-blend-normal">
-          {show3D && (
-            <Scene3D cameraPosition={[0, 0, 6]} fov={30}>
-              <HeroRing />
-            </Scene3D>
-          )}
+        {/* Cedar Circuit - positioned center, visible on md+ screens */}
+        <div
+          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+          style={{ display: 'none' }}
+        >
+          {/* Fallback for SSR, will be replaced by CSS */}
+        </div>
+        <div className="cedar-circuit-wrapper absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[85vw] lg:w-[50vw] h-[85vh] flex items-center justify-center pointer-events-none">
+          <CedarCircuitHero className="w-full h-full" />
         </div>
       </div>
 
